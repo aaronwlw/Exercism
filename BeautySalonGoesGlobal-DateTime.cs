@@ -119,7 +119,7 @@ public static class Appointment
 
                 tempResult = paris.IsDaylightSavingTime(dt);
 
-                for (DateTime temp = dt; dt < dt.AddDays(-7); dt.AddDays(-1))
+                for (DateTime temp = dt; temp > dt.AddDays(-7); temp = temp.AddDays(-1))
                 {
                     if (paris.IsDaylightSavingTime(temp) != tempResult)
                     {
@@ -136,7 +136,7 @@ public static class Appointment
 
                 tempResult = newYork.IsDaylightSavingTime(dt);
 
-                for (DateTime temp = dt; dt < dt.AddDays(-7); dt.AddDays(-1))
+                for (DateTime temp = dt; temp > dt.AddDays(-7); temp = temp.AddDays(-1))
                 {
                     if (newYork.IsDaylightSavingTime(temp) != tempResult)
                     {
@@ -153,7 +153,7 @@ public static class Appointment
 
                 tempResult = london.IsDaylightSavingTime(dt);
 
-                for (DateTime temp = dt; dt < dt.AddDays(-7); dt.AddDays(-1))
+                for (DateTime temp = dt; temp > dt.AddDays(-7); temp = temp.AddDays(-1))
                 {
                     if (london.IsDaylightSavingTime(temp) != tempResult)
                     {
@@ -173,7 +173,7 @@ public static class Appointment
 
                 tempResult = paris.IsDaylightSavingTime(dt);
 
-                for (DateTime temp = dt; dt < dt.AddDays(-7); dt.AddDays(-1))
+                for (DateTime temp = dt; temp > dt.AddDays(-7); temp = temp.AddDays(-1))
                 {
                     if (paris.IsDaylightSavingTime(temp) != tempResult)
                     {
@@ -190,7 +190,7 @@ public static class Appointment
 
                 tempResult = newYork.IsDaylightSavingTime(dt);
 
-                for (DateTime temp = dt; dt < dt.AddDays(-7); dt.AddDays(-1))
+                for (DateTime temp = dt; temp > dt.AddDays(-7); temp = temp.AddDays(-1))
                 {
                     if (newYork.IsDaylightSavingTime(temp) != tempResult)
                     {
@@ -207,7 +207,7 @@ public static class Appointment
 
                 tempResult = london.IsDaylightSavingTime(dt);
 
-                for (DateTime temp = dt; dt < dt.AddDays(-7); dt.AddDays(-1))
+                for (DateTime temp = dt; temp > dt.AddDays(-7); temp = temp.AddDays(-1))
                 {
                     if (london.IsDaylightSavingTime(temp) != tempResult)
                     {
@@ -226,3 +226,4 @@ public static class Appointment
         throw new NotImplementedException("Please implement the (static) Appointment.NormalizeDateTime() method");
     }
 }
+
