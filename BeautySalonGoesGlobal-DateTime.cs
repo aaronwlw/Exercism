@@ -92,12 +92,133 @@ public static class Appointment
 
     public static DateTime GetAlertTime(DateTime appointment, AlertLevel alertLevel)
     {
-        throw new NotImplementedException("Please implement the (static) Appointment.GetAlertTime() method");
+        TimeSpan standard = new TimeSpan(1, 45, 0);
+        TimeSpan late = new TimeSpan(0, 30, 0);
+
+        DateTime result = alertLevel switch
+        {
+            AlertLevel.Early => appointment.AddDays(-1),
+            AlertLevel.Standard => appointment - standard,
+            AlertLevel.Late => appointment - late,
+            _ => appointment,
+        };
+
+        return result;
     }
 
     public static bool HasDaylightSavingChanged(DateTime dt, Location location)
     {
-        throw new NotImplementedException("Please implement the (static) Appointment.HasDaylightSavingChanged() method");
+        bool changed = false;
+        bool tempResult;
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            if (location == Location.Paris)
+            {
+                TimeZoneInfo paris = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+
+                tempResult = paris.IsDaylightSavingTime(dt);
+
+                for (DateTime temp = dt; dt < dt.AddDays(-7); dt.AddDays(-1))
+                {
+                    if (paris.IsDaylightSavingTime(temp) != tempResult)
+                    {
+                        changed = true;
+                        break;
+                    }
+                }
+
+                return changed;
+            }
+            else if (location == Location.NewYork)
+            {
+                TimeZoneInfo newYork = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+
+                tempResult = newYork.IsDaylightSavingTime(dt);
+
+                for (DateTime temp = dt; dt < dt.AddDays(-7); dt.AddDays(-1))
+                {
+                    if (newYork.IsDaylightSavingTime(temp) != tempResult)
+                    {
+                        changed = true;
+                        break;
+                    }
+                }
+
+                return changed;
+            }
+            else
+            {
+                TimeZoneInfo london = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
+
+                tempResult = london.IsDaylightSavingTime(dt);
+
+                for (DateTime temp = dt; dt < dt.AddDays(-7); dt.AddDays(-1))
+                {
+                    if (london.IsDaylightSavingTime(temp) != tempResult)
+                    {
+                        changed = true;
+                        break;
+                    }
+                }
+
+                return changed;
+            }
+        }
+        else //Linux/Mac
+        {
+            if (location == Location.Paris)
+            {
+                TimeZoneInfo paris = TimeZoneInfo.FindSystemTimeZoneById("Europe/Paris");
+
+                tempResult = paris.IsDaylightSavingTime(dt);
+
+                for (DateTime temp = dt; dt < dt.AddDays(-7); dt.AddDays(-1))
+                {
+                    if (paris.IsDaylightSavingTime(temp) != tempResult)
+                    {
+                        changed = true;
+                        break;
+                    }
+                }
+
+                return changed;
+            }
+            else if (location == Location.NewYork)
+            {
+                TimeZoneInfo newYork = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
+
+                tempResult = newYork.IsDaylightSavingTime(dt);
+
+                for (DateTime temp = dt; dt < dt.AddDays(-7); dt.AddDays(-1))
+                {
+                    if (newYork.IsDaylightSavingTime(temp) != tempResult)
+                    {
+                        changed = true;
+                        break;
+                    }
+                }
+
+                return changed;
+            }
+            else
+            {
+                TimeZoneInfo london = TimeZoneInfo.FindSystemTimeZoneById("Europe/London");
+
+                tempResult = london.IsDaylightSavingTime(dt);
+
+                for (DateTime temp = dt; dt < dt.AddDays(-7); dt.AddDays(-1))
+                {
+                    if (london.IsDaylightSavingTime(temp) != tempResult)
+                    {
+                        changed = true;
+                        break;
+                    }
+                }
+
+                return changed;
+            }
+        }
     }
 
     public static DateTime NormalizeDateTime(string dtStr, Location location)
