@@ -12,6 +12,7 @@ In this exercise you are back in the world of salons (first introduced in the da
 */
 
 using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 public enum Location
@@ -95,15 +96,13 @@ public static class Appointment
         TimeSpan standard = new TimeSpan(1, 45, 0);
         TimeSpan late = new TimeSpan(0, 30, 0);
 
-        DateTime result = alertLevel switch
+        return alertLevel switch
         {
             AlertLevel.Early => appointment.AddDays(-1),
             AlertLevel.Standard => appointment - standard,
             AlertLevel.Late => appointment - late,
             _ => appointment,
         };
-
-        return result;
     }
 
     public static bool HasDaylightSavingChanged(DateTime dt, Location location)
@@ -223,7 +222,31 @@ public static class Appointment
 
     public static DateTime NormalizeDateTime(string dtStr, Location location)
     {
-        throw new NotImplementedException("Please implement the (static) Appointment.NormalizeDateTime() method");
+        //london - en-GB
+        //new york - en-US
+        //paris - fr-FR
+        try
+        {
+            if (location == Location.Paris)
+            {
+                CultureInfo cultureinfo = new CultureInfo("fr-FR");
+                return DateTime.Parse(dtStr, cultureinfo);
+            }
+            else if (location == Location.NewYork)
+            {
+                CultureInfo cultureinfo = new CultureInfo("en-US");
+                return DateTime.Parse(dtStr, cultureinfo);
+            }
+            else
+            {
+                CultureInfo cultureinfo = new CultureInfo("en-GB");
+                return DateTime.Parse(dtStr, cultureinfo);
+            }
+        }
+        catch (FormatException e)
+        {
+            return DateTime.MinValue;
+        }
     }
 }
 
