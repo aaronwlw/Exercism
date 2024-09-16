@@ -29,6 +29,7 @@ In this exercise, you are going to help high school sweethearts profess their lo
 */
 
 using System;
+using System.Globalization;
 
 public static class HighSchoolSweethearts
 {
@@ -36,12 +37,26 @@ public static class HighSchoolSweethearts
 
     public static string DisplayBanner(string studentA, string studentB)
     {
-        throw new NotImplementedException($"Please implement the (static) HighSchoolSweethearts.DisplayBanner() method");
+        string heartTemplate = @"
+     ******       ******
+   **      **   **      **
+ **         ** **         **
+**            *            **
+**                         **
+**     {0} +  {1}    **
+ **                       **
+   **                   **
+     **               **
+       **           **
+         **       **
+           **   **
+             ***
+              *";
+
+        return string.Format(heartTemplate, studentA, studentB);
     }
 
-    public static string DisplayGermanExchangeStudents(string studentA
-        , string studentB, DateTime start, float hours)
-    {
-        throw new NotImplementedException($"Please implement the (static) HighSchoolSweethearts.DisplayGermanExchangeStudents() method");
-    }
+    public static string DisplayGermanExchangeStudents(string studentA, string studentB, DateTime start, float hours) => 
+        string.Format(new CultureInfo("de-DE", false), "{0} and {1} have been dating since {2:d} - that's {3} hours", studentA, studentB, start, hours.ToString("N2", CultureInfo.GetCultureInfo("de-DE")));
 }
+
