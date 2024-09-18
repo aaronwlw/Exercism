@@ -24,6 +24,9 @@ Identify log lines where the literal string "password", which may be in any comb
 
 using System;
 using System.Text.RegularExpressions;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class LogParser
 {
@@ -47,13 +50,26 @@ public class LogParser
         return count;
     }
 
-    public string RemoveEndOfLineText(string line)
-    {
-        throw new NotImplementedException($"Please implement the LogParser.RemoveEndOfLineText() method");
-    }
+    public string RemoveEndOfLineText(string line) => Regex.Replace(line, @"end-of-line\d+", "");
 
     public string[] ListLinesWithPasswords(string[] lines)
     {
-        throw new NotImplementedException($"Please implement the LogParser.ListLinesWithPasswords() method");
+        List<string> processed = new List<string>();
+
+        foreach (string line in lines)
+        {
+            Match password = Regex.Match(line, @"password\S+", RegexOptions.IgnoreCase);
+            
+            if (password != Match.Empty)
+            {
+                processed.Add($"{password.Value}: {line}");
+            }
+            else
+            {
+                processed.Add($"--------: {line}");
+            }
+        }
+
+        return processed.ToArray();
     }
 }
